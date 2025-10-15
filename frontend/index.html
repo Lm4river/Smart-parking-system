@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhận diện biển số xe</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="logo-29.png" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <h1>Màn hình nhận diện biển số xe</h1>
+    </header>
+    <main>
+        <div class="wrapper">
+            <div class="container">
+                <section class="upload-section">
+                    <button id="selectImageButton">Chọn Ảnh</button>
+                    <input type="file" id="imageInput" accept="image/*" style="display:none;">
+                </section>
+                <section class="display-section">
+                    <video id="videoPlayer" controls style="display:none;">
+                        <source id="videoSource" src="">
+                    </video>
+                    <img id="imageDisplay" src="" alt="Selected Image" style="display:none;">
+                </section>
+            </div>
+            <div class="extract">
+                <button id="extractButton" >Trích xuất</button>
+                <div class="result-image">
+                    <img id="processedImage" alt="Processed Image">
+                    <img id="drawImage" alt="Draw Image">
+                </div>
+            </div>
+        </div>
+        <div class="result">          
+            <div class="container-input">
+                <div class="result-input" id="character-container"></div>
+                <label class="result-label">Biển số xe</label> 
+            </div>
+        </div>
+    </main>
+</body>
+<script src="script.js"></script>
+</html>

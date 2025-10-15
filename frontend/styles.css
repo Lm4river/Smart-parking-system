@@ -1,0 +1,144 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.wrapper {
+    display: flex;
+    column-gap: 30px;
+}
+
+.container {
+    width: 50%;
+    height: auto;
+}
+
+.upload-section {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    column-gap: 20px ;
+}
+
+#selectVideoButton, 
+#selectImageButton {
+    width: 100px;
+    height: 30px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.display-section {
+    width: 100%;
+    max-width: 600px;
+    height: 350px;
+    border: 1px solid #ccc;
+    margin-left: 80px;
+}
+
+#videoPlayer,
+#imageDisplay {
+    width: 100%;
+    height: 350px;
+    object-fit: contain;
+}
+
+.extract {
+    width: 50%;
+    position: relative;
+}
+
+#extractButton {
+    width: 100px;
+    height: 30px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: absolute;
+    left: 35%;
+}
+
+.extract img {
+    margin-top: 70px;
+    margin-right: 60px;
+    height: 350px;
+    width: 600px;
+}
+
+.result {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 70px;
+}
+
+.result-input {
+    width: 600px;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid #000;
+}
+
+.result-input span {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+.result-image {
+    width: 600px;
+    height: 420px;
+    display: flex;
+    flex-direction: column;
+}
+
+.result-image img {
+    width: 500px;
+    height: 150px;
+    margin-left: 50px;
+}
+
+.result-label {
+    font-size: 20px;
+    background-color: white;
+    position: absolute;
+    top: 72%;
+    left: 35%;
+    padding: 0 10px;
+}
+
+.result button {
+    width: 100px;
+    height: 30px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+#processedImage {
+    border: 1px solid #ccc;
+}
+
+#drawImage {
+    border: 1px solid #ccc;
+}

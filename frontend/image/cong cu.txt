@@ -1,0 +1,148 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder, StandardScaler, MinMaxScaler
+from numpy.fft import fft2, ifft2
+from sklearn.model_selection import train_test_split, KFold
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import precision_recall_fscore_support, accuracy_score
+from sklearn.neighbors import KNeighborsClassifier
+import time
+
+df = pd.read_csv('heart.csv')
+data = df.values
+print('data = ', data)
+
+# Câu 1
+# Chuẩn hóa 2 cột đầu
+two_col = data[:, : 2]
+print('2 cột đầu: ', two_col)
+two_col = MinMaxScaler(feature_range=(0, 1)).fit_transform(two_col)
+print('Sau chuẩn hóa: ', two_col)
+data[:, :2] = two_col
+
+# Chuẩn hóa các cột còn lại
+con_lai = data[:, 2: -1]
+print('Các cột còn lại: ', con_lai)
+con_lai = StandardScaler().fit_transform(con_lai)
+print('Sau chuẩn hóa: ', con_lai)
+data[:, 2: -1] = con_lai
+
+# Số hóa cột class
+cuoi = data[:, -1]
+print('Cột cuối: ', cuoi)
+cuoi = LabelEncoder().fit_transform(cuoi)
+print('Sau chuẩn hóa: ', cuoi)
+data[:, -1] = cuoi
+
+
+# Câu 2
+# Biến đổi fft
+data_10_dongdau = data[:10, : -1]
+print("Du lieu ban dau: ", data_10_dongdau)
+# Thuận
+thuan = fft2(data_10_dongdau)
+print("Bien doi thuan: ", thuan)
+#Nghịch
+nghich = ifft2(thuan)
+print('bien doi nghich: ', nghich)
+
+# Câu 3:
+# Lấy dữ liệu từ data
+X = data[:, : -1]
+# y = data[:, -1]
+y = cuoi
+print('X ban đầu: ', X.shape)
+# Chia tỉ lệ 95% train, 5% test
+X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=0.95, random_state=24)
+print('Kích thước X_train: {} ~ {}'.format(X_train.shape, X_train.shape[0] / X.shape[0]))
+print('Kích thước X_train: ', X_test.shape)
+
+# Câu 4:
+# kFold với 5-fold
+k_fold = KFold(n_splits=5, shuffle=True, random_state=24)
+
+# Câu 5:
+# Bayes
+Bayes_model = GaussianNB()
+Accuracies = []
+Precisions = []
+Recalls = []
+F1_scores = []
+Time = []
+for train_index, val_index in k_fold.split(X):
+    s_time = time.time()
+    Bayes_model.fit(X[train_index], y[train_index])
+
+    y_predict = Bayes_model.predict(X[val_index])
+
+    pre, rec, f1, sup = precision_recall_fscore_support(y[val_index], y_predict, zero_division=1, average='macro')
+    acc = accuracy_score(y[val_index], y_predict)
+    e_time = time.time()
+    Accuracies.append(acc)
+    Precisions.append(pre)
+    Recalls.append(rec)
+    F1_scores.append(f1)
+    Time.append(e_time - s_time)
+
+print("Phân lớp với Bayes: ")
+print(f"Accurracy {Accuracies}: {np.mean(Accuracies)}")
+print(f"Precision {Precisions}: {np.mean(Precisions)}")
+print(f"Recall {Recalls}: {np.mean(Recalls)}")
+print(f"F1_score {F1_scores}: {np.mean(F1_scores)}")
+print(f"Time : {Time} = {np.mean(Time)}")
+
+plt.subplot(1, 2, 1)
+plt.title('Bayes')
+plt.plot(Accuracies, )
+plt.plot(Precisions)
+plt.plot(Recalls)
+plt.plot(F1_scores)
+plt.plot(Time)
+plt.legend(['Accuracies', 'Precisions', 'Recalls', 'F1_scores', 'Time'])
+plt.grid()
+
+# Câu 6:
+# KNN
+KNN_model = KNeighborsClassifier()
+Accuracies = []
+Precisions = []
+Recalls = []
+F1_scores = []
+Time = []
+for train_index, val_index in k_fold.split(X):
+    s_time = time.time()
+    KNN_model.fit(X[train_index], y[train_index])
+
+    y_predict = KNN_model.predict(X[val_index])
+
+    pre, rec, f1, sup = precision_recall_fscore_support(y[val_index], y_predict, zero_division=1, average='macro')
+    acc = accuracy_score(y[val_index], y_predict)
+    e_time = time.time()
+
+    Accuracies.append(acc)
+    Precisions.append(pre)
+    Recalls.append(rec)
+    F1_scores.append(f1)
+    Time.append(e_time - s_time)
+
+# Câu 7:
+print("Phân lớp với KNN: ")
+print(f"Accurracy {Accuracies}: {np.mean(Accuracies)}")
+print(f"Precision {Precisions}: {np.mean(Precisions)}")
+print(f"Recall {Recalls}: {np.mean(Recalls)}")
+print(f"F1_score {F1_scores}: {np.mean(F1_scores)}")
+print(f"Time : {Time} = {np.mean(Time)}")
+
+plt.subplot(1, 2, 2)
+plt.title('KNN')
+plt.plot(Accuracies)
+plt.plot(Precisions)
+plt.plot(Recalls)
+plt.plot(F1_scores)
+plt.plot(Time)
+plt.legend(['Accuracies', 'Precisions', 'Recalls', 'F1_scores', 'Time'])
+plt.grid()
+plt.show()
+
+dásd
